@@ -1,13 +1,12 @@
-# from typing import Text
 from pytube import YouTube
 from telegram.ext import Updater, CommandHandler, ConversationHandler, MessageHandler, Filters
 import logging
-# from telegram import Bot
 import os
 
 # The correct way to import a token stored in .env file
 from dotenv import load_dotenv
-load_dotenv() #It configures your local enviromental variable and merge to the enviromental variable tree
+load_dotenv() 
+#It configures your local enviromental variable and merge to the enviromental variable tree
 
 token = os.getenv('token')
 
@@ -42,10 +41,6 @@ def download(update, context):
 
     context.bot.send_message(chat_id = update.effective_chat.id, text = 'Wait...') 
     context.bot.send_audio(chat_id = update.effective_chat.id, audio = open(cleanest.replace(".", "") + '.mp3', 'rb'))
-    
-    
-    # context.bot.send_photo(chat_id = update.effective_chat.id, photo = video.thumbnail_url) -- Video Thumbnail
-    # print(video.title) -- Video Title
     
     return ConversationHandler.END
 
