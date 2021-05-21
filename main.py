@@ -1,8 +1,6 @@
-# from typing import Text
 from pytube import YouTube
 from telegram.ext import Updater, CommandHandler, ConversationHandler, MessageHandler, Filters
 import logging
-# from telegram import Bot
 import os
 
 updater = Updater(token="1722570287:AAEN5izkP7LfmVRkK-FzIo7aMCE6N3PWXSY", use_context=True)
