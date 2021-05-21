@@ -5,9 +5,13 @@ import logging
 # from telegram import Bot
 import os
 
-token = os.environ['TOKEN']
+# The correct way to import a token stored in .env file
+from dotenv import load_dotenv
+load_dotenv() #It configures your local enviromental variable and merge to the enviromental variable tree
 
-updater = Updater(token=token, use_context=True)
+token = os.getenv('token')
+
+updater = Updater(token, use_context=True)
 dispatcher = updater.dispatcher
 LINK = 0
 
