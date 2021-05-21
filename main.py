@@ -5,9 +5,13 @@ import logging
 # from telegram import Bot
 import os
 
-token = os.environ['TOKEN']
+# The correct way to import a token stored in .env file
+from dotenv import load_dotenv
+load_dotenv() #It configures your local enviromental variable and merge to the enviromental variable tree
 
-updater = Updater(token=token, use_context=True)
+token = os.getenv('token')
+
+updater = Updater(token, use_context=True)
 dispatcher = updater.dispatcher
 LINK = 0
 
@@ -24,6 +28,10 @@ def download(update, context):
     video = YouTube(update.message.text)
     audio = video.streams.filter(only_audio=True).first()
     title = video.title
+    
+    clean_ = title.replace(".", "") # A esto por mi casa le llaman salir del paso, prohibido curarse
+    cleaner = clean_.replace(",", "")
+    cleanest = cleaner.replace("'", "")
 
     pre = audio.download()
     
@@ -33,7 +41,7 @@ def download(update, context):
     os.rename(pre, post + '.mp3')
 
     context.bot.send_message(chat_id = update.effective_chat.id, text = 'Wait...') 
-    context.bot.send_audio(chat_id = update.effective_chat.id, audio = open(title.replace(".", "") + '.mp3', 'rb'))
+    context.bot.send_audio(chat_id = update.effective_chat.id, audio = open(cleanest.replace(".", "") + '.mp3', 'rb'))
     
     
     # context.bot.send_photo(chat_id = update.effective_chat.id, photo = video.thumbnail_url) -- Video Thumbnail
