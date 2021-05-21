@@ -5,7 +5,9 @@ import logging
 # from telegram import Bot
 import os
 
-updater = Updater(token="1722570287:AAEN5izkP7LfmVRkK-FzIo7aMCE6N3PWXSY", use_context=True)
+token = os.environ['TOKEN']
+
+updater = Updater(token=token, use_context=True)
 dispatcher = updater.dispatcher
 LINK = 0
 
