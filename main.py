@@ -2,6 +2,7 @@ from pytube import YouTube
 from telegram.ext import Updater, CommandHandler, ConversationHandler, MessageHandler, Filters
 import logging
 import os
+import time
 
 # The correct way to import a token stored in .env file
 from dotenv import load_dotenv
@@ -26,12 +27,8 @@ def get_link(update, context):
 def download(update, context):
     video = YouTube(update.message.text)
     audio = video.streams.filter(only_audio=True).first()
-    title = video.title
-    
-    clean_ = title.replace(".", "") # A esto por mi casa le llaman salir del paso, prohibido curarse
-    cleaner = clean_.replace(",", "")
-    cleanest = cleaner.replace("'", "")
-
+    title = video.title.translate(str.maketrans('','',".,'"))
+   
     pre = audio.download()
     
     post = os.path.splitext(pre)[0]
@@ -40,8 +37,12 @@ def download(update, context):
     os.rename(pre, post + '.mp3')
 
     context.bot.send_message(chat_id = update.effective_chat.id, text = 'Wait...') 
-    context.bot.send_audio(chat_id = update.effective_chat.id, audio = open(cleanest.replace(".", "") + '.mp3', 'rb'))
+    context.bot.send_audio(chat_id = update.effective_chat.id, audio = open(title + '.mp3', 'rb'))
     
+    time.sleep(5)
+
+    os.remove(title + '.mp3')
+
     return ConversationHandler.END
 
 start_handler = CommandHandler('start', start)
