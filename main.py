@@ -2,7 +2,6 @@
 
 from pytube import YouTube, exceptions
 from telegram.ext import Updater, CommandHandler, ConversationHandler, MessageHandler, Filters
-from telegram import MessageEntity
 import logging
 import os
 import time
@@ -70,7 +69,7 @@ dispatcher.add_handler(ConversationHandler(
     ],
 
     states={
-        LINK: [MessageHandler(Filters.entity(MessageEntity.URL), download)]
+        LINK: [MessageHandler(Filters.text, download)]
     },
 
     fallbacks=[],
