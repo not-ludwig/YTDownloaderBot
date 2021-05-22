@@ -17,7 +17,7 @@ updater = Updater(token, use_context=True)
 dispatcher = updater.dispatcher
 LINK = 0
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
-bot_greeting = "*Hi, I'am the Youtube Downloader bot\nRun */download *to start downloading your favorite music\nIf I somehow misbehave contact my maker from the profile info*"
+bot_greeting = "*Hi, I'm the Youtube Downloader bot\nRun */download *to start downloading your favorite music\nIf I somehow misbehave contact my maker from the profile info*"
 
 # -- Main Commands -- #
 def start(update, context):
