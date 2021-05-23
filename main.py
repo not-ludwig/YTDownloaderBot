@@ -22,10 +22,13 @@ bot_greeting = "*Hi, I'm the Youtube Downloader bot\nRun */download *to start do
 wait = "*Wait\.\.\.*"
 working = "*Working on it\.\.\.*"
 done = "*Done* ✅ *Sending ✉*"
-
+ins = " *Detailed instructions*\n/download \- Will ask for a youtube link to work with"
 # -- Main Commands -- #
 def start(update, context):
     context.bot.send_message(chat_id = update.effective_chat.id, text = bot_greeting, parse_mode='MarkdownV2')
+
+def instructions(update, context):
+    context.bot.send_message(chat_id = update.effective_chat.id, text = ins, parse_mode='MarkdownV2')
 
 def get_link(update, context):
     context.bot.send_message(chat_id = update.effective_chat.id, text = "Send me the link you wish to download!")
@@ -61,15 +64,16 @@ def download(update, context):
             return ConversationHandler.END
             # -- Check if a valid link has been received -- #
         else:
-            context.bot.send_message(chat_id = update.effective_chat.id, text = 'Video limit is 10 Minute (storage), give me another link') 
+            context.bot.send_message(chat_id = update.effective_chat.id, text = 'Video limit is 10 Minutes (storage), give me another link') 
 
     except exceptions.RegexMatchError as e:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "Send me a valid link, please run /download again")
         return ConversationHandler.END
 
 start_handler = CommandHandler('start', start)
-
+instructions_handler = CommandHandler('instructions', instructions)
 dispatcher.add_handler(start_handler)
+dispatcher.add_handler(instructions_handler)
 
 dispatcher.add_handler(ConversationHandler(
     entry_points=[
