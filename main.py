@@ -17,7 +17,14 @@ updater = Updater(token, use_context=True)
 dispatcher = updater.dispatcher
 LINK = 0
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+
 bot_greeting = "*Hi, I'm the Youtube Downloader bot\nRun */download *to start downloading your favorite music\nIf I somehow misbehave contact my maker from the profile info*"
+
+words = ["*Wait\.\.\.*","*Working on it\.\.\.*","*Done* ✅"]
+
+wait = "*Wait\.\.\.*"
+working = "*Working on it\.\.\.*"
+done = "*Done* ✅"
 
 # -- Main Commands -- #
 def start(update, context):
@@ -42,7 +49,12 @@ def download(update, context):
             post = os.path.splitext(pre)[0]
             os.rename(pre, post + '.mp3')
 
-            context.bot.send_message(chat_id = update.effective_chat.id, text = 'Wait...') 
+            context.bot.send_message(chat_id = update.effective_chat.id, text = wait, parse_mode='MarkdownV2')
+            time.sleep(2)
+            context.bot.send_message(chat_id = update.effective_chat.id, text = working, parse_mode='MarkdownV2')
+            time.sleep(2)
+            context.bot.send_message(chat_id = update.effective_chat.id, text = done, parse_mode='MarkdownV2') 
+            time.sleep(2)
             context.bot.send_audio(chat_id = update.effective_chat.id, audio = open(title + '.mp3', 'rb'))
             
             # -- Wait 1 seconds then delete the video file -- #
@@ -53,7 +65,6 @@ def download(update, context):
             # -- Check if a valid link has been received -- #
         else:
             context.bot.send_message(chat_id = update.effective_chat.id, text = 'Video limit is 10 Minute (storage), give me another link') 
-            
 
     except exceptions.RegexMatchError as e:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "Send me a valid link, please run /download again")
