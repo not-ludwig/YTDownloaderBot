@@ -1,6 +1,6 @@
 # -- Imports -- #
 
-from pytube import YouTube, exceptions
+from pytube import YouTube, exceptions, Playlist
 from telegram.ext import Updater, CommandHandler, ConversationHandler, MessageHandler, Filters
 import logging
 import os
@@ -15,7 +15,8 @@ token = os.getenv('token')
 # -- Basic Setup -- #
 updater = Updater(token, use_context=True)
 dispatcher = updater.dispatcher
-LINK = 0
+SONG = 0
+PLAYLIST = 0
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 bot_greeting = "*Hi, I'm the Youtube Downloader bot\nRun */download *to start downloading your favorite music\nIf I somehow misbehave contact my maker from the profile info*"
 
@@ -30,10 +31,15 @@ def start(update, context):
 def instructions(update, context):
     context.bot.send_message(chat_id = update.effective_chat.id, text = ins, parse_mode='MarkdownV2')
 
-def get_link(update, context):
+def get_song(update, context):
     context.bot.send_message(chat_id = update.effective_chat.id, text = "Send me the link you wish to download!")
     # -- Hold value to use in Conversation Handler -- #
-    return LINK
+    return SONG
+
+def get_playlist(update, context):
+    context.bot.send_message(chat_id = update.effective_chat.id, text = "Send me the link of the playlist you wish to download!")
+    # -- Hold value to use in Conversation Handler -- #
+    return PLAYLIST
  
 def download(update, context):
     # -- Get video info -- #
@@ -70,6 +76,11 @@ def download(update, context):
         context.bot.send_message(chat_id = update.effective_chat.id, text = "Send me a valid link, please run /download again")
         return ConversationHandler.END
 
+def playlist(update, context):
+    playlist = Playlist(update.message.text)
+    for song in playlist.videos[:5]:
+        context.bot.send_message(chat_id = update.effective_chat.id, text = song.title)
+
 start_handler = CommandHandler('start', start)
 instructions_handler = CommandHandler('instructions', instructions)
 dispatcher.add_handler(start_handler)
@@ -77,11 +88,13 @@ dispatcher.add_handler(instructions_handler)
 
 dispatcher.add_handler(ConversationHandler(
     entry_points=[
-        CommandHandler('download', get_link)
+        CommandHandler('download', get_song),
+        CommandHandler('playlist', get_playlist)
     ],
 
     states={
-        LINK: [MessageHandler(Filters.text, download)]
+        SONG: [MessageHandler(Filters.text, download)],
+        PLAYLIST: [MessageHandler(Filters.text, playlist)]
     },
 
     fallbacks=[],
