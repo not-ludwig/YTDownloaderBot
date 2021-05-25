@@ -23,13 +23,13 @@ bot_greeting = "*Hi, I'm the Youtube Downloader bot\nRun */download *to start do
 wait = "*Wait\.\.\.*"
 working = "*Working on it\.\.\.*"
 done = "*Done* ✅ *Sending ✉*"
-ins = " *Detailed instructions*\n/download \- Will ask for a youtube link to work with\n/playlist \- Will ask for a youtube playlist link to work with"
+saving = "*To save a song*\nOn mobile📱: Long press the audio and press the download button up top\. \nOn PC💻: Right Click on the audio and choose 'Save audio file As\.\.\.'"
 # -- Main Commands -- #
 def start(update, context):
     context.bot.send_message(chat_id = update.effective_chat.id, text = bot_greeting, parse_mode='MarkdownV2')
 
-def instructions(update, context):
-    context.bot.send_message(chat_id = update.effective_chat.id, text = ins, parse_mode='MarkdownV2')
+def save(update, context):
+    context.bot.send_message(chat_id = update.effective_chat.id, text = saving, parse_mode='MarkdownV2')
 
 def get_song(update, context):
     context.bot.send_message(chat_id = update.effective_chat.id, text = "Send me the link you wish to download!")
@@ -66,6 +66,7 @@ def download(update, context):
             # -- Wait 1 seconds then delete the video file -- #
             time.sleep(1)
             os.remove(title + '.mp3')
+            
             # -- End the conversation handler since input is not expected or alredy given -- #
             return ConversationHandler.END
             # -- Check if a valid link has been received -- #
@@ -81,9 +82,10 @@ def playlist(update, context):
     try:
         playlist = Playlist(update.message.text)
         playlistLength = len(playlist.video_urls)
-        context.bot.send_message(chat_id = update.effective_chat.id, text = "*Your songs will be deliveried one by one ASAP ✉, please be patient ❤*", parse_mode='MarkdownV2')
-
+        
         if playlistLength <= 25:
+            context.bot.send_message(chat_id = update.effective_chat.id, text = "*Your songs will be deliveried one by one ASAP ✉, please be patient ❤*", parse_mode='MarkdownV2')
+
             for song in playlist.videos[:playlistLength]:
                 title = song.title.translate(str.maketrans('','',".,'?#|"))
                 audio = song.streams.filter(only_audio=True).first()
@@ -104,9 +106,9 @@ def playlist(update, context):
             return ConversationHandler.END
 
 start_handler = CommandHandler('start', start)
-instructions_handler = CommandHandler('instructions', instructions)
+save_handler = CommandHandler('how', save)
 dispatcher.add_handler(start_handler)
-dispatcher.add_handler(instructions_handler)
+dispatcher.add_handler(save_handler)
 
 dispatcher.add_handler(ConversationHandler(
     entry_points=[
