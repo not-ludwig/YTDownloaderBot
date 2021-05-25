@@ -23,7 +23,7 @@ bot_greeting = "*Hi, I'm the Youtube Downloader bot\nRun */download *to start do
 wait = "*Wait\.\.\.*"
 working = "*Working on it\.\.\.*"
 done = "*Done* ✅ *Sending ✉*"
-ins = " *Detailed instructions*\n/download \- Will ask for a youtube link to work with"
+ins = " *Detailed instructions*\n/download \- Will ask for a youtube link to work with\n/playlist \- Will ask for a youtube playlist link to work with"
 # -- Main Commands -- #
 def start(update, context):
     context.bot.send_message(chat_id = update.effective_chat.id, text = bot_greeting, parse_mode='MarkdownV2')
@@ -77,25 +77,31 @@ def download(update, context):
         return ConversationHandler.END
 
 def playlist(update, context):
-    playlist = Playlist(update.message.text)
+
     try:
-        for song in playlist.videos[:5]:
-            title = song.title.translate(str.maketrans('','',".,'?#|"))
-            audio = song.streams.filter(only_audio=True).first()
+        playlist = Playlist(update.message.text)
+        playlistLength = len(playlist.video_urls)
+        context.bot.send_message(chat_id = update.effective_chat.id, text = "*Your songs will be deliveried one by one ASAP ✉, please be patient ❤*", parse_mode='MarkdownV2')
 
-            pre = audio.download()
-            post = os.path.splitext(pre)[0]
-            os.rename(pre, post + '.mp3')
+        if playlistLength <= 25:
+            for song in playlist.videos[:playlistLength]:
+                title = song.title.translate(str.maketrans('','',".,'?#|"))
+                audio = song.streams.filter(only_audio=True).first()
 
-            context.bot.send_message(chat_id = update.effective_chat.id, text = title)
-            context.bot.send_audio(chat_id = update.effective_chat.id, audio = open(title + '.mp3', 'rb'))
+                pre = audio.download()
+                post = os.path.splitext(pre)[0]
+                os.rename(pre, post + '.mp3')
 
-            time.sleep(1)
-            os.remove(title + '.mp3')
-            time.sleep(1)
+                context.bot.send_audio(chat_id = update.effective_chat.id, audio = open(title + '.mp3', 'rb'))
+
+                time.sleep(1)
+                os.remove(title + '.mp3')
+        else:
+            context.bot.send_message(chat_id = update.effective_chat.id, text = "Playlist must be 25 songs max (storage), give me another link")
+    
     except:
-        context.bot.send_message(chat_id = update.effective_chat.id, text = "Send me a valid playlist link, please run /playlist again")
-        return ConversationHandler.END
+            context.bot.send_message(chat_id = update.effective_chat.id, text = "Send me a valid playlist link, please run /playlist again")
+            return ConversationHandler.END
 
 start_handler = CommandHandler('start', start)
 instructions_handler = CommandHandler('instructions', instructions)
