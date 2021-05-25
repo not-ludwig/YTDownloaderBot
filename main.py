@@ -46,7 +46,7 @@ def download(update, context):
     try:
         video = YouTube(update.message.text)
         audio = video.streams.filter(only_audio=True).first()
-        title = video.title.translate(str.maketrans('','',".,'?"))
+        title = video.title.translate(str.maketrans('','',".,'?#|"))
         
         # -- Check if video reaches 10 minutes (600 sec == 10 min) -- #
         if(video.length < 600):
@@ -78,8 +78,24 @@ def download(update, context):
 
 def playlist(update, context):
     playlist = Playlist(update.message.text)
-    for song in playlist.videos[:5]:
-        context.bot.send_message(chat_id = update.effective_chat.id, text = song.title)
+    try:
+        for song in playlist.videos[:5]:
+            title = song.title.translate(str.maketrans('','',".,'?#|"))
+            audio = song.streams.filter(only_audio=True).first()
+
+            pre = audio.download()
+            post = os.path.splitext(pre)[0]
+            os.rename(pre, post + '.mp3')
+
+            context.bot.send_message(chat_id = update.effective_chat.id, text = title)
+            context.bot.send_audio(chat_id = update.effective_chat.id, audio = open(title + '.mp3', 'rb'))
+
+            time.sleep(1)
+            os.remove(title + '.mp3')
+            time.sleep(1)
+    except:
+        context.bot.send_message(chat_id = update.effective_chat.id, text = "Send me a valid playlist link, please run /playlist again")
+        return ConversationHandler.END
 
 start_handler = CommandHandler('start', start)
 instructions_handler = CommandHandler('instructions', instructions)
@@ -88,12 +104,22 @@ dispatcher.add_handler(instructions_handler)
 
 dispatcher.add_handler(ConversationHandler(
     entry_points=[
-        CommandHandler('download', get_song),
+        CommandHandler('download', get_song)
+    ],
+
+    states={
+        SONG: [MessageHandler(Filters.text, download)]
+    },
+
+    fallbacks=[],
+))
+
+dispatcher.add_handler(ConversationHandler(
+     entry_points=[
         CommandHandler('playlist', get_playlist)
     ],
 
     states={
-        SONG: [MessageHandler(Filters.text, download)],
         PLAYLIST: [MessageHandler(Filters.text, playlist)]
     },
 
