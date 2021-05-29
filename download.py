@@ -47,3 +47,6 @@ def download(update, context):
     except exceptions.RegexMatchError as e:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "Send me a valid link, please run /download again")
         return ConversationHandler.END
+    except exceptions.VideoRegionBlocked as e:
+        context.bot.send_message(chat_id = update.effective_chat.id, text = "This video is region locked, please run /download again with another video")
+        return ConversationHandler.END
