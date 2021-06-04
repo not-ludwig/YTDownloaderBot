@@ -17,8 +17,9 @@ def download(update, context):
     try:
         video = YouTube(update.message.text)
         audio = video.streams.filter(only_audio=True).first()
-        title = video.title.translate(str.maketrans('','',".,'?#|;"))
-        
+        # title = video.title.translate(str.maketrans('','',".,'?#|;"))
+        title = video.title.translate(str.maketrans('','',f"'#$%*.,\/:;<>?^|~\""))
+
         # -- Check if video reaches 10 minutes (600 sec == 10 min) -- #
         if(video.length < 600):
         # -- Download audio stream and change its extension --  #

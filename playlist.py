@@ -19,7 +19,7 @@ def playlist(update, context):
             context.bot.send_message(chat_id = update.effective_chat.id, text = "*Your songs will be deliveried one by one ASAP ✉, please be patient ❤*", parse_mode='MarkdownV2')
 
             for song in playlist.videos[:playlistLength]:
-                title = song.title.translate(str.maketrans('','',".,'?#|"))
+                title = song.title.translate(str.maketrans('','',f"'#$%*.,\/:;<>?^|~\""))
                 audio = song.streams.filter(only_audio=True).first()
 
                 pre = audio.download()
