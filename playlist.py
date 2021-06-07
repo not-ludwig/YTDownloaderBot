@@ -1,5 +1,5 @@
 from telegram.ext import ConversationHandler
-from pytube import Playlist
+from pytube import Playlist, exceptions
 import os, time
 
 PLAYLIST = 0
@@ -33,6 +33,9 @@ def playlist(update, context):
         else:
             context.bot.send_message(chat_id = update.effective_chat.id, text = "Playlist must be 25 songs max (storage), give me another link")
     
-    except:
-            context.bot.send_message(chat_id = update.effective_chat.id, text = "Send me a valid playlist link, please run /playlist again")
+    except exceptions.VideoRegionBlocked as e:
+            context.bot.send_message(chat_id = update.effective_chat.id, text = f"{song.title} is region blocked, will not be downloaded")
+            pass
+    except exceptions.RegexMatchError as e:
+            context.bot.send_message(chat_id = update.effective_chat.id, text = "Please send a valid playlist link, run /playlist again.")
             return ConversationHandler.END
