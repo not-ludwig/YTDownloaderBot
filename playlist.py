@@ -34,8 +34,8 @@ def playlist(update, context):
             context.bot.send_message(chat_id = update.effective_chat.id, text = "Playlist must be 25 songs max (storage), give me another link")
     
     except exceptions.VideoRegionBlocked as e:
-            context.bot.send_message(chat_id = update.effective_chat.id, text = f"{song.title} is region blocked, will not be downloaded")
-            pass
-    except exceptions.RegexMatchError as e:
+            return context.bot.send_message(chat_id = update.effective_chat.id, text = f"{song.title} is region blocked, will not be downloaded")
+
+    except exceptions.RegexMatchError and KeyError as e:
             context.bot.send_message(chat_id = update.effective_chat.id, text = "Please send a valid playlist link, run /playlist again.")
             return ConversationHandler.END
