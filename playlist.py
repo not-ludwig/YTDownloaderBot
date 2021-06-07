@@ -30,6 +30,9 @@ def playlist(update, context):
 
                 time.sleep(1)
                 os.remove(title + '.mp3')
+            
+            context.bot.send_message(chat_id = update.effective_chat.id, text = "*If a song from your playlist is not being sent to you, probably is region blocked.*", parse_mode='MarkdownV2')
+
         else:
             context.bot.send_message(chat_id = update.effective_chat.id, text = "Playlist must be 25 songs max (storage), give me another link")
     
