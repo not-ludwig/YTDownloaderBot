@@ -32,7 +32,7 @@ def playlist(update, context):
                     time.sleep(1)
                     os.remove(title + '.mp3')
                 except exceptions.VideoRegionBlocked as e:
-                    context.bot.send_message(chat_id = update.effective_chat.id, text = f"{song.title} is region blocked, will not be downloaded")
+                    context.bot.send_message(chat_id = update.effective_chat.id, text = "1")
                     pass
         else:
             context.bot.send_message(chat_id = update.effective_chat.id, text = "Playlist must be 25 songs max (storage), give me another link")
