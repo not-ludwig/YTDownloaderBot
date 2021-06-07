@@ -19,21 +19,17 @@ def playlist(update, context):
             context.bot.send_message(chat_id = update.effective_chat.id, text = "*Your songs will be deliveried one by one ASAP ✉, please be patient ❤*", parse_mode='MarkdownV2')
 
             for song in playlist.videos[:playlistLength]:
-                try:
-                    title = song.title.translate(str.maketrans('','',f"'#$%*.,\/:;<>?^|~\""))
-                    audio = song.streams.filter(only_audio=True).first()
+                title = song.title.translate(str.maketrans('','',f"'#$%*.,\/:;<>?^|~\""))
+                audio = song.streams.filter(only_audio=True).first()
 
-                    pre = audio.download()
-                    post = os.path.splitext(pre)[0]
-                    os.rename(pre, post + '.mp3')
+                pre = audio.download()
+                post = os.path.splitext(pre)[0]
+                os.rename(pre, post + '.mp3')
 
-                    context.bot.send_audio(chat_id = update.effective_chat.id, audio = open(title + '.mp3', 'rb'))
+                context.bot.send_audio(chat_id = update.effective_chat.id, audio = open(title + '.mp3', 'rb'))
 
-                    time.sleep(1)
-                    os.remove(title + '.mp3')
-                except exceptions.VideoRegionBlocked as e:
-                    context.bot.send_message(chat_id = update.effective_chat.id, text = "1")
-                    pass
+                time.sleep(1)
+                os.remove(title + '.mp3')
         else:
             context.bot.send_message(chat_id = update.effective_chat.id, text = "Playlist must be 25 songs max (storage), give me another link")
     
