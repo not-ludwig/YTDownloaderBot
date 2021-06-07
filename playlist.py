@@ -14,11 +14,12 @@ def playlist(update, context):
     try:
         playlist = Playlist(update.message.text)
         playlistLength = len(playlist.video_urls)
-        try:
-            if playlistLength <= 25:
-                context.bot.send_message(chat_id = update.effective_chat.id, text = "*Your songs will be deliveried one by one ASAP ✉, please be patient ❤*", parse_mode='MarkdownV2')
+        
+        if playlistLength <= 25:
+            context.bot.send_message(chat_id = update.effective_chat.id, text = "*Your songs will be deliveried one by one ASAP ✉, please be patient ❤*", parse_mode='MarkdownV2')
 
-                for song in playlist.videos[:playlistLength]:
+            for song in playlist.videos[:playlistLength]:
+                try:
                     title = song.title.translate(str.maketrans('','',f"'#$%*.,\/:;<>?^|~\""))
                     audio = song.streams.filter(only_audio=True).first()
 
@@ -30,12 +31,12 @@ def playlist(update, context):
 
                     time.sleep(1)
                     os.remove(title + '.mp3')
-            else:
-                context.bot.send_message(chat_id = update.effective_chat.id, text = "Playlist must be 25 songs max (storage), give me another link")
-        
-        except exceptions.VideoRegionBlocked as e:
-                return context.bot.send_message(chat_id = update.effective_chat.id, text = f"{song.title} is region blocked, will not be downloaded")
-
+                except exceptions.VideoRegionBlocked as e:
+                    context.bot.send_message(chat_id = update.effective_chat.id, text = f"{song.title} is region blocked, will not be downloaded")
+                    pass
+        else:
+            context.bot.send_message(chat_id = update.effective_chat.id, text = "Playlist must be 25 songs max (storage), give me another link")
+    
     except exceptions.RegexMatchError and KeyError as e:
             context.bot.send_message(chat_id = update.effective_chat.id, text = "Please send a valid playlist link, run /playlist again.")
             return ConversationHandler.END
