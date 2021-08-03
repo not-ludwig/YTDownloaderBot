@@ -1,4 +1,4 @@
 python-dotenv==0.17.1
 python-telegram-bot==13.7
 # pytube==10.9.3
-git+https://github.com/ssuwani/pytube 
+git+https://github.com/Zeecka/pytube@fix_1060
