@@ -20,8 +20,8 @@ def download(update, context):
         # title = video.title.translate(str.maketrans('','',".,'?#|;"))
         title = video.title.translate(str.maketrans('','',f"'#$%*.,\/:;<>?^|~\""))
 
-        # -- Check if video reaches 10 minutes (600 sec == 10 min) -- #
-        if(video.length < 600):
+        # -- Check if video reaches 20 minutes (1200 sec == 20 min) -- #
+        if(video.length < 1200):
         # -- Download audio stream and change its extension --  #
             pre = audio.download()
             post = os.path.splitext(pre)[0]
@@ -43,7 +43,7 @@ def download(update, context):
             return ConversationHandler.END
             # -- Check if a valid link has been received -- #
         else:
-            context.bot.send_message(chat_id = update.effective_chat.id, text = 'Video limit is 10 Minutes (storage), give me another link') 
+            context.bot.send_message(chat_id = update.effective_chat.id, text = 'Video limit is 20 Minutes (storage), give me another link') 
 
     except exceptions.RegexMatchError as e:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "Send me a valid link, please run /download again")
