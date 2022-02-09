@@ -12,4 +12,4 @@
 ![Screenshot_1](https://github.com/md5-loki/YTDownloaderBot/blob/master/sc/1.PNG)
 ![Screenshot_2](https://github.com/md5-loki/YTDownloaderBot/blob/master/sc/2.PNG)
 
-<h3>On android is possible to download the .mp3 file to the device, On iOS it will only allow you to listen to it</h3>
+<h3>On android is possible to download the .mp3 file to the device, On iOS it will only allow you to listen to it.</h3>
