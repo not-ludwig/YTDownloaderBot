@@ -1,13 +1,23 @@
 # Youtube Downloader Bot (Telegram)
 
-<h4>Youtube Downloader Bot! (currently deprecated)</h4>
+_A Telegram bot to download your favorite songs from youtube in mp3 format, can also download playlists._
 
-<h5>A Telegram bot to download your favorite songs from youtube in mp3 format, can also download playlists.</h2>
-<h5>Add to Telegram by searching @YTaMP3Bot.</h5>
-<h5>Hosted in Heroku (currently turned off).</h5>
+## What CAN IT DO?
+1. ✅ Download a video and send it as a song (mp3 format).
+2. ✅ Download a whole playlist (as long as it doesn't include any age or region restricted content - Must be less than 25 songs).
+
+## What CAN'T IT DO?
+1. ❌ Download Age Restricted content.
+2. ❌ Download Region Restricted content.
+
+<hr>
+
+_Add to Telegram by searching @YTaMP3Bot_
+
+_Hosted in Heroku (working as of September 2023)_
 
 
-<h3>Example of usage:</h3>
+## Example of usage:
 
 ![Screenshot_1](https://github.com/md5-loki/YTDownloaderBot/blob/master/sc/1.PNG)
 ![Screenshot_2](https://github.com/md5-loki/YTDownloaderBot/blob/master/sc/2.PNG)
