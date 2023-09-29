@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from pytube import YouTube, exceptions
 from telegram.ext import ConversationHandler
 import os, time

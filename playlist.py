@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from telegram.ext import ConversationHandler
 from pytube import Playlist, exceptions
 import os, time
