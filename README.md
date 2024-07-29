@@ -19,7 +19,6 @@ _(working as of JULY 2024)_
 
 ## Example of usage:
 
-![Screenshot_1](https://github.com/md5-loki/YTDownloaderBot/blob/master/sc/1.PNG)
-![Screenshot_2](https://github.com/md5-loki/YTDownloaderBot/blob/master/sc/2.PNG)
+![Screenshot_1](https://i.imgur.com/eOMwrKP.png)
 
 <h3>On android is possible to download the .mp3 file to the device, On iOS it will only allow you to listen to it.</h3>
