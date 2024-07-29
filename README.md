@@ -14,7 +14,7 @@ _A Telegram bot to download your favorite songs from youtube in mp3 format, can 
 
 _Add to Telegram by searching @YTaMP3Bot_
 
-_Hosted in Heroku (working as of September 2023)_
+_(working as of JULY 2024)_
 
 
 ## Example of usage:

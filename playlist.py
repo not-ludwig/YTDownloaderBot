@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from telegram.ext import ConversationHandler
-from pytube import Playlist, exceptions
+from pytubefix import Playlist, exceptions
 import os, time
 
 PLAYLIST = 0

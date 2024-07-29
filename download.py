@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from pytube import YouTube, exceptions
+from pytubefix import YouTube, exceptions
 from telegram.ext import ConversationHandler
 import os, time
 
@@ -47,6 +47,7 @@ def download(update, context):
             context.bot.send_message(chat_id = update.effective_chat.id, text = 'Video limit is 20 Minutes (storage), give me another link') 
 
     except exceptions.RegexMatchError as e:
+        print(e)
         context.bot.send_message(chat_id = update.effective_chat.id, text = "Send me a valid link, please run /download again")
         return ConversationHandler.END
     except exceptions.VideoRegionBlocked as e:
