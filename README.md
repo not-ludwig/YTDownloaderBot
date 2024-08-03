@@ -19,6 +19,6 @@ _(working as of JULY 2024)_
 
 ## Example of usage:
 
-![Screenshot_1](https://i.imgur.com/eOMwrKP.png)
+<img src="https://i.imgur.com/eOMwrKP.png" width="770" height="1666">
 
 <h3>On android is possible to download the .mp3 file to the device, On iOS it will only allow you to listen to it.</h3>
